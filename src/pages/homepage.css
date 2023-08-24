@@ -1,0 +1,33 @@
+.homepage-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  background-color: aliceblue;
+  margin-top: 100px;
+  margin-bottom: 30px;
+}
+.homepage-login {
+  border: 1px dashed skyblue;
+  padding: 100px;
+}
+
+.homepage-img {
+  border: 1px dashed skyblue;
+}
+
+.home-img {
+  width: 50vw;
+  height: 80vh;
+  object-fit: cover;
+}
+
+@media screen and (max-width: 600px) {
+  .homepage-container {
+    flex-direction: column;
+    gap: 20px;
+  }
+  .home-img {
+    height: 350px;
+    width: 450px;
+  }
+}

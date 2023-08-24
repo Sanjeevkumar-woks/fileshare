@@ -1,0 +1,96 @@
+:root {
+  --main-bg-color: #edf5fe;
+  --light-blue: #03a9f4;
+  --border-color: #0288d147;
+  --container-width: 500px;
+}
+
+.dashboard-container,
+.upload-container,
+.drop-zone,
+.file-card,
+.file-upload-form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.upload-container {
+  margin-top: 10px;
+  width: 60%;
+  background: #ffffff;
+  border-radius: 25px;
+  box-shadow: 0px 20px 20px 0px #00000017;
+}
+
+.drop-zone {
+  width: var(--container-width);
+  min-height: 100px;
+  border: 2px dashed var(--border-color);
+  border-radius: 10px;
+  margin: 30px;
+  transition: 0.2s all ease-in;
+}
+.upload-icon {
+  margin-top: 20px;
+  width: 100px;
+  height: 100px;
+}
+
+.show-zone {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 10px;
+  padding: 20px;
+  gap: 10px;
+  background: whitesmoke;
+  border-radius: 25px;
+  box-shadow: 0px 20px 20px 0px #00000017;
+}
+
+.file-card {
+  width: 250px;
+  height: 200px;
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0px 20px 20px 0px #00000017;
+}
+.upload-btn,
+.download-btn {
+  background-color: var(--light-blue);
+  border: none;
+  padding: 5px;
+  width: 100%;
+  cursor: pointer;
+  border-radius: 5px;
+}
+.upload-btn {
+  margin: 5px;
+}
+.download-btn:hover {
+  background-color: cornflowerblue;
+}
+.delete-btn {
+  border: none;
+  background-color: #ffff;
+  cursor: pointer;
+}
+.delete-btn-container {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+@media screen and (max-width: 600px) {
+  .drop-zone {
+    width: auto;
+    padding: 5px;
+  }
+  .upload-container {
+    margin: 50px;
+  }
+}
