@@ -7,20 +7,28 @@ import { useState } from "react";
 import { googleLogout } from "@react-oauth/google";
 
 function App() {
-  const [aut, setAut] = useState(false);
+  const [aut, setAut] = useState({});
 
   const logOut = () => {
     googleLogout();
-    setAut(false);
+    setAut({});
   };
   return (
     <div className="App">
       <div className="navbar">
         <img className="logo" src={logo} alt="fileshare-logo" />
-        {aut ? (
-          <button className="logout" onClick={logOut}>
-            logOut
-          </button>
+        {Object.keys(aut).length ? (
+          <div className="profile">
+            <img
+              className="profile-img"
+              src={aut.picture}
+              alt={aut.name + "-img"}
+            />
+            <small className="profile-name">{aut.name}</small>
+            <button className="logout" onClick={logOut}>
+              logOut
+            </button>
+          </div>
         ) : (
           ""
         )}
@@ -30,7 +38,11 @@ function App() {
         <Route
           path="/"
           element={
-            aut ? <Dashboard logOut={logOut} /> : <Homepage setAut={setAut} />
+            Object.keys(aut).length ? (
+              <Dashboard  aut={aut}/>
+            ) : (
+              <Homepage setAut={setAut} />
+            )
           }
         />
       </Routes>

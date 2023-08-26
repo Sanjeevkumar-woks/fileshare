@@ -18,17 +18,32 @@ body {
   align-items: center;
 }
 
+.profile {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.profile-name {
+  font-weight: bold;
+  font-size: 0.8rem;
+}
+
 .logout {
   background-color: #4caf50; /* Green */
   border: none;
   color: white;
-  padding: 15px 32px;
+  padding: 10px 12px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
   border-radius: 5px;
-  margin-left: auto;
+}
+.profile-img {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
 }
 
 .logo {
