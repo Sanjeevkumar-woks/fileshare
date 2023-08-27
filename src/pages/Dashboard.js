@@ -6,11 +6,11 @@ import "./dashboard.css";
 const url = "http://localhost:9000";
 
 export default function Dashboard({ aut }) {
-  const [file, setFile] = useState();
+  const [file, setFile] = useState('');
   const [files, setFiles] = useState([]);
-
+console.log(aut)
   useEffect(() => {
-    fetch(`${url}/api/files/allfiles`)
+    fetch(`${url}/api/files/allfiles`,{headers:{"x-auth-token":aut.jwt_token,"email":aut.email}})
       .then((data) => data.json())
       .then((files) => setFiles(files))
       .catch((err) => console.log(err.message));
@@ -34,14 +34,17 @@ export default function Dashboard({ aut }) {
     fetch(`${url}/api/files`, {
       method: "POST",
       body: formData,
+      headers:{"x-auth-token":aut.jwt_token,"email":aut.email}
     })
       .then((res) => res.json())
       .then((data) => setFiles(data))
       .catch((err) => console.error(err));
+      setFile(null)
   };
   const handleDeleteClick = (uuid) => {
     fetch(`${url}/api/files/${uuid}`, {
       method: "DELETE",
+      headers:{"x-auth-token":aut.jwt_token,"email":aut.email}
     })
       .then((res) => res.json())
       .then((data) => setFiles(data))
@@ -97,7 +100,7 @@ function FileCard({ file, handleDeleteClick }) {
           ❌
         </button>
       </div>
-      <h6>{filename}</h6>
+      <h6 className="file-name">{filename}</h6>
       <p>Size: {size / 1000}kb</p>
       <a href={`${url}/files/download/${uuid}`} target="__blank">
         <button className="download-btn">Download file ⬇️</button>
