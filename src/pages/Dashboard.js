@@ -5,7 +5,7 @@ import "./dashboard.css";
 
 const url = "http://localhost:9000";
 
-export default function Dashboard({aut}) {
+export default function Dashboard({ aut }) {
   const [file, setFile] = useState();
   const [files, setFiles] = useState([]);
 
@@ -26,7 +26,7 @@ export default function Dashboard({aut}) {
   const handleUploadClick = () => {
     const formData = new FormData();
     formData.append("myfile", file);
-    
+
     if (!file) {
       return;
     }

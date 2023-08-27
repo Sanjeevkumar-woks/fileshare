@@ -4,13 +4,18 @@ import homeimg from "./Uploading-rafiki.png";
 import { GoogleLogin } from "@react-oauth/google";
 import jwt_decode from "jwt-decode";
 
+const url = "http://localhost:9000";
 export default function Homepage({ setAut }) {
   const handelLogin = (userCredentials) => {
-    var token = userCredentials.credential;
-    var decoded = jwt_decode(token);
-    setAut(decoded);
-    console.log(decoded);
-    console.log(userCredentials);
+    var decoded = jwt_decode(userCredentials.credential);
+    fetch(`${url}/files/login`, {
+      method: "POST",
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(decoded),
+    })
+      .then((res) => res.json())
+      .then((data) => setAut(data))
+      .catch((err) => console.error(err));
   };
 
   return (
