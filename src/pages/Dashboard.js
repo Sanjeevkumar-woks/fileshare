@@ -7,9 +7,9 @@ import "./dashboard.css";
 const url = "http://localhost:9000";
 
 export default function Dashboard({ aut }) {
-  const [onefile, setOneFile] = useState("");
+  const [onefile, setOneFile] = useState(null);
   const [files, setFiles] = useState([]);
-  console.log(aut);
+
   useEffect(() => {
     fetch(`${url}/api/files/allfiles`, {
       headers: { "x-auth-token": aut.jwt_token, email: aut.email },
@@ -62,6 +62,7 @@ export default function Dashboard({ aut }) {
               name="myfile"
               hoverTitle="drop here"
             />
+             <p>{onefile ? `File name: ${onefile.name}` : "no files uploaded yet"}</p>
             <br />
             <button
               className="upload-btn"
