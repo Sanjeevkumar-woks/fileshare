@@ -1,50 +1,48 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import uploadimg from "./images.png";
+import { FileUploader } from "react-drag-drop-files";
 import "./dashboard.css";
 
 const url = "http://localhost:9000";
 
 export default function Dashboard({ aut }) {
-  const [file, setFile] = useState('');
+  const [onefile, setOneFile] = useState("");
   const [files, setFiles] = useState([]);
-console.log(aut)
+  console.log(aut);
   useEffect(() => {
-    fetch(`${url}/api/files/allfiles`,{headers:{"x-auth-token":aut.jwt_token,"email":aut.email}})
+    fetch(`${url}/api/files/allfiles`, {
+      headers: { "x-auth-token": aut.jwt_token, email: aut.email },
+    })
       .then((data) => data.json())
       .then((files) => setFiles(files))
       .catch((err) => console.log(err.message));
   }, []);
 
-  const handleFileChange = (e) => {
-    e.preventDefault();
-    if (e.target.files) {
-      setFile(e.target.files[0]);
-    }
+  const handleFileChange = (file) => {
+    setOneFile(file);
   };
 
   const handleUploadClick = () => {
     const formData = new FormData();
-    formData.append("myfile", file);
-
-    if (!file) {
+    formData.append("myfile", onefile);
+    if (!onefile) {
       return;
     }
-
     fetch(`${url}/api/files`, {
       method: "POST",
       body: formData,
-      headers:{"x-auth-token":aut.jwt_token,"email":aut.email}
+      headers: { "x-auth-token": aut.jwt_token, email: aut.email },
     })
       .then((res) => res.json())
       .then((data) => setFiles(data))
       .catch((err) => console.error(err));
-      setFile(null)
+    setOneFile(null);
   };
   const handleDeleteClick = (uuid) => {
     fetch(`${url}/api/files/${uuid}`, {
       method: "DELETE",
-      headers:{"x-auth-token":aut.jwt_token,"email":aut.email}
+      headers: { "x-auth-token": aut.jwt_token, email: aut.email },
     })
       .then((res) => res.json())
       .then((data) => setFiles(data))
@@ -56,15 +54,13 @@ console.log(aut)
       <div className="upload-container">
         <div className="drop-zone">
           <img className="upload-icon" src={uploadimg} alt="upload-icon" />
-          <p>Drop your file here or,</p>
-          <div className="file-upload-form">
-            <label>Select a file:</label>
-            <br />
-            <input
-              type="file"
-              id="myfile"
+          <p>Drop your file here or,</p>  
+            <FileUploader
+              classes="file-uploader"
+              multiple={false}
+              handleChange={handleFileChange}
               name="myfile"
-              onChange={handleFileChange}
+              hoverTitle="drop here"
             />
             <br />
             <button
@@ -74,7 +70,6 @@ console.log(aut)
             >
               Upload⬆️
             </button>
-          </div>
         </div>
       </div>
       <div className="show-zone">
