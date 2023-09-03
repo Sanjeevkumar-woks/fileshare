@@ -2,14 +2,13 @@
   --main-bg-color: #edf5fe;
   --light-blue: #03a9f4;
   --border-color: #0288d147;
-  --container-width: 500px;
 }
 
 .dashboard-container,
 .upload-container,
 .drop-zone,
-.file-card,
-.file-upload-form {
+.file-card
+{
   display: flex;
   align-items: center;
   justify-content: center;
@@ -18,8 +17,6 @@
 
 .upload-container {
   margin-top: 10px;
-  width: 30%;
-  height: 40%;
   background: #ffffff;
   border-radius: 25px;
   box-shadow: 0px 20px 20px 0px #00000017;
@@ -27,15 +24,13 @@
 
 .file-uploader {
   display: block;
-  width: 50%;
   min-height: 100px;
   border-radius: 10px;
-  margin: 30px;
 }
 .upload-icon {
   margin-top: 20px;
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
 }
 
 .uploaded-file-name {
@@ -60,10 +55,10 @@
   position: relative;
   width: 250px;
   height: 200px;
-  background:linear-gradient(to left, #03a9f4, #7ad7f0);
+  background: linear-gradient(to left, #03a9f4, #7ad7f0);
   border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0px 20px 20px 0px #00000017; 
+  box-shadow: 0px 20px 20px 0px #00000017;
 }
 
 .layer {
@@ -77,7 +72,7 @@
   width: 100%;
   left: 0;
   background: linear-gradient(to left, #f5fcff, #7ad7f0);
-  transition: all .5s;
+  transition: all 0.5s;
 }
 .file-card:hover {
   color: #fff;
@@ -103,7 +98,7 @@
 
 .delete-btn {
   border: none;
-  background-color:transparent;
+  background-color: transparent;
   cursor: pointer;
   font-size: larger;
   color: tomato;

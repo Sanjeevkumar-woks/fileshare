@@ -5,51 +5,54 @@ import { FileUploader } from "react-drag-drop-files";
 import { MdOutlineDeleteForever } from "react-icons/md";
 import "./dashboard.css";
 
-const url = "http://localhost:9000";
+const url = "http://localhost:4000";
 
 export default function Dashboard({ aut }) {
   const [onefile, setOneFile] = useState(null);
   const [files, setFiles] = useState([]);
 
   useEffect(() => {
-    fetch(`${url}/api/files/allfiles`, {
-      headers: { "x-auth-token": aut.jwt_token, email: aut.email },
+    fetch(`${url}/api/files/list`, {
+      headers: { "x-auth-token": aut.jwt_token, uuid: aut.uuid },
     })
       .then((data) => data.json())
       .then((files) => setFiles(files))
       .catch((err) => console.log(err.message));
   }, []);
 
-  const handleFileChange = (e) => {
+  const handleFileChange = async (e) => {
     setOneFile(e);
-    console.log(e);
   };
 
   const handleUploadClick = () => {
     const formData = new FormData();
-    formData.append("myfile", onefile);
+    Object.keys(onefile).forEach(key => {
+      formData.append("myfile", onefile[key])
+    })
+
     if (!onefile) {
       return;
     }
-    fetch(`${url}/api/files`, {
+    fetch(`${url}/api/files/upload`, {
       method: "POST",
       body: formData,
-      headers: { "x-auth-token": aut.jwt_token, email: aut.email },
+      headers: { "x-auth-token": aut.jwt_token, uuid: aut.uuid },
     })
       .then((res) => res.json())
       .then((data) => setFiles(data))
       .catch((err) => console.error(err));
     setOneFile(null);
   };
-  const handleDeleteClick = (uuid) => {
-    fetch(`${url}/api/files/${uuid}`, {
+  const handleDeleteClick = (filename) => {
+    fetch(`${url}/api/files/delete/${filename}`, {
       method: "DELETE",
-      headers: { "x-auth-token": aut.jwt_token, email: aut.email },
+      headers: { "x-auth-token": aut.jwt_token, uuid: aut.uuid },
     })
       .then((res) => res.json())
       .then((data) => setFiles(data))
       .catch((err) => console.error(err));
   };
+
 
   return (
     <div className="dashboard-container">
@@ -60,7 +63,7 @@ export default function Dashboard({ aut }) {
           <FileUploader
             label="Drag & Drop here"
             classes="file-uploader"
-            multiple={false}
+            multiple={true}
             handleChange={handleFileChange}
             name="myfile"
             hoverTitle="Drop here"
@@ -72,7 +75,7 @@ export default function Dashboard({ aut }) {
             }}
           />
           <p className="uploaded-file-name">
-            {onefile ? `File name: ${onefile.name}` : "no files uploaded yet"}
+            {onefile ? <p>hi</p> : "no files uploaded yet"}
           </p>
           <br />
           <button
@@ -85,34 +88,34 @@ export default function Dashboard({ aut }) {
         </div>
       </div>
       <div className="show-zone">
-        {files.map((file) => (
-          <FileCard
-            file={file}
-            key={file.uuid}
-            handleDeleteClick={handleDeleteClick}
-          />
-        ))}
+        {
+          files.map((file) => <FileCard file={file} handleDeleteClick={handleDeleteClick} aut={aut} key={file.ETag} />)
+        }
       </div>
     </div>
   );
 }
 
-function FileCard({ file, handleDeleteClick }) {
-  const { filename, size, uuid } = file;
+function FileCard({ file, handleDeleteClick, aut }) {
+  const { Key, Size } = file;
+  function downloadDocument(filename) {
+    fetch(`${url}/api/files/download/${filename}`, {
+      headers: { "x-auth-token": aut.jwt_token, uuid: aut.uuid }
+    }).then((res) => res.json()).then((data) => window.open(data.signed_url, "_blank")).catch((err) => console.log(err))
+  }
 
+  const filename = Key.split('/')[1];
   return (
     <div className="file-card">
       <div className="delete-btn-container">
-        <button className="delete-btn" onClick={() => handleDeleteClick(uuid)}>
+        <button className="delete-btn" onClick={() => handleDeleteClick(filename)}>
           <MdOutlineDeleteForever />
         </button>
       </div>
       <h6 className="file-name">{filename}</h6>
-      <p>Size: {size / 1000}kb</p>
-      <div class="layer">
-        <a href={`${url}/files/download/${uuid}`} class="buttonDownload">
-          Download
-        </a>
+      <p>Size: {Size / 1000}kb</p>
+      <div className="layer">
+        <button onClick={() => downloadDocument(filename)} className="buttonDownload">Download </button>
       </div>
     </div>
   );

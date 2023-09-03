@@ -8,6 +8,7 @@ import { googleLogout } from "@react-oauth/google";
 
 function App() {
   const [aut, setAut] = useState({});
+  
   const logOut = () => {
     googleLogout();
     setAut({});
