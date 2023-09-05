@@ -1,6 +1,6 @@
 import "./Footer.css";
 
-import { Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { BsGithub, BsLinkedin } from "react-icons/bs";
 
@@ -13,7 +13,7 @@ export function Footer() {
           <div className="FooterAboutUsHeader">About Us</div>
           <div className="FooterAboutUsText">
             One place solution to secure your files and documents, free
-            unlimited encrypted sharing, downloades and uploads
+            unlimited encrypted sharing with downloades and uploads
           </div>
           <ul className="FooterAboutUsLinks">
             <li>

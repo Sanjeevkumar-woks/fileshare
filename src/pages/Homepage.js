@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./homepage.css";
 import homeimg from "./Uploading-rafiki.png";
 import { GoogleLogin } from "@react-oauth/google";
 import jwt_decode from "jwt-decode";
+import { context } from "../App";
 
-const url = "https://fileshare-backend-s3-i6kbkflgp-sanjeevkumar-woks.vercel.app";
-export default function Homepage({ setAut }) {
-  
+export default function Homepage() {
+
+  const [, setAut, url] = useContext(context);
+
+
   const handelLogin = (userCredentials) => {
     var decoded = jwt_decode(userCredentials.credential);
     fetch(`${url}/api/files/login`, {

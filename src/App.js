@@ -3,9 +3,12 @@ import Homepage from "./pages/Homepage";
 import "./App.css";
 import Dashboard from "./pages/Dashboard";
 import { Route, Routes } from "react-router-dom";
-import { useState } from "react";
+import { createContext, useContext, useState } from "react";
 import { googleLogout } from "@react-oauth/google";
 import { Footer } from "./components/Footer";
+
+export const context = createContext([])
+const url = "https://fileshare-backend-s3-i6kbkflgp-sanjeevkumar-woks.vercel.app";
 
 function App() {
   const [aut, setAut] = useState({});
@@ -54,19 +57,21 @@ function App() {
 
         )}
       </div>
-
-      <Routes>
-        <Route
-          path="/"
-          element={
-            aut.email_verified ? (
-              <Dashboard aut={aut} />
-            ) : (
-              <Homepage setAut={setAut} />
-            )
-          }
-        />
-      </Routes>
+      <div className="HorizontalLine"></div>
+      <context.Provider value={[aut, setAut, url]}>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              aut.email_verified ? (
+                <Dashboard />
+              ) : (
+                <Homepage />
+              )
+            }
+          />
+        </Routes>
+      </context.Provider>
       <Footer />
     </div>
   );

@@ -1,16 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { useState } from "react";
-import uploadimg from "./images.png";
 import { FileUploader } from "react-drag-drop-files";
-import { MdOutlineDeleteForever } from "react-icons/md";
-import { FcShare } from "react-icons/fc";
-
 import "./dashboard.css";
 import axios from "axios";
+import FileCard from "../components/Filecard";
+import { context } from "../App";
 
-const url = "https://fileshare-backend-s3-i6kbkflgp-sanjeevkumar-woks.vercel.app";
-
-export default function Dashboard({ aut }) {
+export default function Dashboard() {
+  const [aut, , url] = useContext(context);
   const [onefile, setOneFile] = useState(null);
   const [files, setFiles] = useState([]);
   const [progress, setProgress] = useState(0);
@@ -25,6 +22,7 @@ export default function Dashboard({ aut }) {
     setIsDragging(false);
   };
   const dragclass = isDragging ? 'drop-zone dragged' : 'drop-zone';
+  const displaystyle = progress ? '' : 'none'
   useEffect(() => {
     fetch(`${url}/api/files/list`, {
       headers: { "x-auth-token": aut.jwt_token, uuid: aut.uuid },
@@ -54,13 +52,13 @@ export default function Dashboard({ aut }) {
         "x-auth-token": aut.jwt_token, uuid: aut.uuid,
       },
       onUploadProgress: (progressEvent) => {
-        const progress = (progressEvent.loaded / progressEvent.total) * 50;
+        const progress = Math.round((progressEvent.loaded / progressEvent.total) * 100);
         setProgress(progress);
-      },
-
+      }
     })
       .then((files) => setFiles(files.data))
       .catch((err) => console.log(err.message));
+    setProgress(0)
 
   };
   const handleDeleteClick = (filename) => {
@@ -115,9 +113,6 @@ export default function Dashboard({ aut }) {
               "font-weight": "bold",
             }}
           />
-          <p className="uploaded-file-name">
-          </p>
-          <br />
           <button
             className="upload-btn"
             type="submit"
@@ -126,37 +121,14 @@ export default function Dashboard({ aut }) {
             Upload⬆️
           </button>
         </div>
+        <div className="progress-container" style={{ "display": `${displaystyle}` }}>
+          <div className="bg-progress" style={{ "width": `${progress}%` }}>Uploading.....</div>
+        </div>
       </div>
       <div className="show-zone">
         {
-          files.map((file) => <FileCard file={file} handleDeleteClick={handleDeleteClick} aut={aut} key={file.ETag} />)
+          files.map((file) => <FileCard file={file} handleDeleteClick={handleDeleteClick} key={file.ETag} />)
         }
-      </div>
-    </div>
-  );
-}
-
-function FileCard({ file, handleDeleteClick, aut }) {
-  const { Key, Size } = file;
-  function downloadDocument(filename) {
-    fetch(`${url}/api/files/download/${filename}`, {
-      headers: { "x-auth-token": aut.jwt_token, uuid: aut.uuid }
-    }).then((res) => res.json()).then((data) => window.open(data.signed_url, "_blank")).catch((err) => console.log(err))
-  }
-
-  const filename = Key.split('/')[1];
-  return (
-    <div className="file-card">
-      <div className="delete-btn-container">
-        <button className="buttonShare"><FcShare /></button>
-        <button className="delete-btn" onClick={() => handleDeleteClick(filename)}>
-          <MdOutlineDeleteForever />
-        </button>
-      </div>
-      <h6 className="file-name">{filename}</h6>
-      <p>Size: {Size / 1000}kb</p>
-      <div className="layer">
-        <button onClick={() => downloadDocument(filename)} className="buttonDownload">Download </button>
       </div>
     </div>
   );

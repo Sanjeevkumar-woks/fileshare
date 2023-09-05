@@ -11,8 +11,7 @@ body {
 }
 
 .navbar {
-  margin-bottom: 10px;
-  padding:  20px;
+  padding: 20px;
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -113,7 +112,10 @@ body {
   transform: translate(2px, 2px);
 }
 
-
+.HorizontalLine {
+  height: 0.1rem;
+  background-color: lightgray;
+}
 html::-webkit-scrollbar {
   width: 0.8rem;
 }
