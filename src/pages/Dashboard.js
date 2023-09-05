@@ -15,7 +15,16 @@ export default function Dashboard({ aut }) {
   const [files, setFiles] = useState([]);
   const [progress, setProgress] = useState(0);
 
-
+  const [isDragging, setIsDragging] = useState(false);
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
+  const handleDragLeave = (e) => {
+    e.preventDefault();
+    setIsDragging(false);
+  };
+  const dragclass = isDragging ? 'drop-zone dragged' : 'drop-zone';
   useEffect(() => {
     fetch(`${url}/api/files/list`, {
       headers: { "x-auth-token": aut.jwt_token, uuid: aut.uuid },
@@ -28,9 +37,6 @@ export default function Dashboard({ aut }) {
   const handleFileChange = async (e) => {
     setOneFile(e);
   };
-
-
-
 
   const handleUploadClick = async () => {
     const formData = new FormData();
@@ -68,11 +74,32 @@ export default function Dashboard({ aut }) {
   };
 
 
+
+
   return (
     <div className="dashboard-container">
       <div className="upload-container">
-        <div className="drop-zone">
-          <img className="upload-icon" src={uploadimg} alt="upload-icon" />
+        <div className={dragclass} onDragOver={handleDragOver} onDragLeave={handleDragLeave}>
+          <div className="icon-container">
+            <img
+              src="https://send.creativeshi.com/file.svg"
+              className="center"
+              draggable="false"
+              alt="file-icon"
+            />
+            <img
+              src="https://send.creativeshi.com/file.svg"
+              className="rigth"
+              draggable="false"
+              alt="file-icon"
+            />
+            <img
+              src="https://send.creativeshi.com/file.svg"
+              className="left"
+              draggable="false"
+              alt="file-icon"
+            />
+          </div>
           <p>Drop your file here or,</p>
           <FileUploader
             label="Drag & Drop here"
