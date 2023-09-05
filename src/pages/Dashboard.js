@@ -3,13 +3,18 @@ import { useState } from "react";
 import uploadimg from "./images.png";
 import { FileUploader } from "react-drag-drop-files";
 import { MdOutlineDeleteForever } from "react-icons/md";
-import "./dashboard.css";
+import { FcShare } from "react-icons/fc";
 
-const url = "http://localhost:4000";
+import "./dashboard.css";
+import axios from "axios";
+
+const url = "https://fileshare-backend-s3-i6kbkflgp-sanjeevkumar-woks.vercel.app";
 
 export default function Dashboard({ aut }) {
   const [onefile, setOneFile] = useState(null);
   const [files, setFiles] = useState([]);
+  const [progress, setProgress] = useState(0);
+
 
   useEffect(() => {
     fetch(`${url}/api/files/list`, {
@@ -24,7 +29,10 @@ export default function Dashboard({ aut }) {
     setOneFile(e);
   };
 
-  const handleUploadClick = () => {
+
+
+
+  const handleUploadClick = async () => {
     const formData = new FormData();
     Object.keys(onefile).forEach(key => {
       formData.append("myfile", onefile[key])
@@ -33,15 +41,21 @@ export default function Dashboard({ aut }) {
     if (!onefile) {
       return;
     }
-    fetch(`${url}/api/files/upload`, {
-      method: "POST",
-      body: formData,
-      headers: { "x-auth-token": aut.jwt_token, uuid: aut.uuid },
+
+    await axios.post(`${url}/api/files/upload`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        "x-auth-token": aut.jwt_token, uuid: aut.uuid,
+      },
+      onUploadProgress: (progressEvent) => {
+        const progress = (progressEvent.loaded / progressEvent.total) * 50;
+        setProgress(progress);
+      },
+
     })
-      .then((res) => res.json())
-      .then((data) => setFiles(data))
-      .catch((err) => console.error(err));
-    setOneFile(null);
+      .then((files) => setFiles(files.data))
+      .catch((err) => console.log(err.message));
+
   };
   const handleDeleteClick = (filename) => {
     fetch(`${url}/api/files/delete/${filename}`, {
@@ -75,7 +89,6 @@ export default function Dashboard({ aut }) {
             }}
           />
           <p className="uploaded-file-name">
-            {onefile ? <p>hi</p> : "no files uploaded yet"}
           </p>
           <br />
           <button
@@ -108,6 +121,7 @@ function FileCard({ file, handleDeleteClick, aut }) {
   return (
     <div className="file-card">
       <div className="delete-btn-container">
+        <button className="buttonShare"><FcShare /></button>
         <button className="delete-btn" onClick={() => handleDeleteClick(filename)}>
           <MdOutlineDeleteForever />
         </button>

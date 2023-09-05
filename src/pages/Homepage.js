@@ -4,7 +4,7 @@ import homeimg from "./Uploading-rafiki.png";
 import { GoogleLogin } from "@react-oauth/google";
 import jwt_decode from "jwt-decode";
 
-const url = "http://localhost:4000";
+const url = "https://fileshare-backend-s3-i6kbkflgp-sanjeevkumar-woks.vercel.app";
 export default function Homepage({ setAut }) {
   
   const handelLogin = (userCredentials) => {

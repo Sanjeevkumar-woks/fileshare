@@ -65,12 +65,12 @@
   display: flex;
   justify-content: center;
   align-items: self-start;
+  gap:30px;
   z-index: 1;
   position: absolute;
   top: calc(100% - 2px);
   height: 100%;
   width: 100%;
-  left: 0;
   background: linear-gradient(to left, #f5fcff, #7ad7f0);
   transition: all 0.5s;
 }
@@ -81,6 +81,9 @@
 }
 .file-card:hover .layer {
   top: 50%;
+}
+.file-name{
+  margin:  10px;
 }
 
 .upload-btn {
@@ -106,7 +109,7 @@
 .delete-btn-container {
   width: 100%;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
 }
 
@@ -169,6 +172,11 @@
 .buttonDownload:hover:after {
   border-top-color: var(--light-blue);
   animation-play-state: running;
+}
+.buttonShare{
+  border: none;
+ background: transparent;
+ font-size: 1rem;
 }
 
 /* keyframes for the download icon anim */

@@ -11,11 +11,12 @@ body {
 }
 
 .navbar {
-  margin: 10px;
-  padding: 0px 20px;
+  margin-bottom: 10px;
+  padding:  20px;
   display: flex;
   justify-content: space-around;
   align-items: center;
+  background-color: rgb(182, 186, 251);
 }
 
 .profile {
@@ -29,17 +30,6 @@ body {
   font-size: 0.8rem;
 }
 
-.logout {
-  background-color: #4caf50; /* Green */
-  border: none;
-  color: white;
-  padding: 10px 12px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  border-radius: 5px;
-}
 .profile-img {
   border-radius: 50%;
   width: 40px;
@@ -52,6 +42,8 @@ body {
   left: 10px;
   width: 100px;
   border-radius: 20px;
+  filter: drop-shadow(6px 6px 2px rgb(118, 114, 114));
+  object-fit: cover;
 }
 
 .Btn {
@@ -119,4 +111,15 @@ body {
 /* button click effect*/
 .Btn:active {
   transform: translate(2px, 2px);
+}
+
+
+html::-webkit-scrollbar {
+  width: 0.8rem;
+}
+html::-webkit-scrollbar-track {
+  background: rgb(235, 202, 245);
+}
+html::-webkit-scrollbar-thumb {
+  background: #420177;
 }
