@@ -58,8 +58,8 @@ export default function Dashboard() {
     })
       .then((files) => setFiles(files.data))
       .catch((err) => console.log(err.message));
-    setProgress(0)
-
+    setProgress(0);
+    setOneFile(null);
   };
   const handleDeleteClick = (filename) => {
     fetch(`${url}/api/files/delete/${filename}`, {

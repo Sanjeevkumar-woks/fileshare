@@ -43,6 +43,7 @@ body {
   border-radius: 20px;
   filter: drop-shadow(6px 6px 2px rgb(118, 114, 114));
   object-fit: cover;
+  cursor: pointer;
 }
 
 .Btn {

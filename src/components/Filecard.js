@@ -1,29 +1,42 @@
-import { MdOutlineDeleteForever } from "react-icons/md";
-import { FcShare } from "react-icons/fc";
 import './filecard.css'
 import { useContext } from "react";
 import { context } from "../App";
+import { useNavigate } from "react-router-dom";
 
 
-export default function FileCard({ file, handleDeleteClick}) {
-    const [aut,,url] = useContext(context);
+export default function FileCard({ file, handleDeleteClick }) {
+    const [aut, , url] = useContext(context);
     const { Key, Size } = file;
+    const navigate = useNavigate();
+
+    const filename = Key.split('/')[1];
+
+    function handleClick() {
+        navigate(`share/${filename}/${Size}`);
+    }
+
     function downloadDocument(filename) {
         fetch(`${url}/api/files/download/${filename}`, {
             headers: { "x-auth-token": aut.jwt_token, uuid: aut.uuid }
         }).then((res) => res.json()).then((data) => window.open(data.signed_url, "_blank")).catch((err) => console.log(err))
     }
 
-    const filename = Key.split('/')[1];
+
     return (
         <div className="file-card">
-            <div className="delete-btn-container">
-                <button className="buttonShare"><FcShare /></button>
-                <button className="delete-btn" onClick={() => handleDeleteClick(filename)}>
-                    <MdOutlineDeleteForever />
+            <div className="btns-container">
+                <button className="share-button" onClick={handleClick}>
+                    <svg width="30" height="30" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M15.75 5.125a3.125 3.125 0 1 1 .754 2.035l-8.397 3.9a3.124 3.124 0 0 1 0 1.88l8.397 3.9a3.125 3.125 0 1 1-.61 1.095l-8.397-3.9a3.125 3.125 0 1 1 0-4.07l8.397-3.9a3.125 3.125 0 0 1-.144-.94Z"></path>
+                    </svg>
+                </button>
+                <button className="delete-button" onClick={() => handleDeleteClick(filename)}>
+                    <svg className="delete-svgIcon" viewBox="0 0 448 512">
+                        <path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"></path>
+                    </svg>
                 </button>
             </div>
-            <h6 className="file-name">{filename}</h6>
+            <h3 className="file-name">{filename}</h3>
             <p>Size: {Size / 1000}kb</p>
             <div className="layer">
                 <button onClick={() => downloadDocument(filename)} className="buttonDownload">Download </button>
