@@ -9,7 +9,7 @@ import Fileshared from "./pages/fileshared/Fileshared";
 import Navbar from "./components/Navbar/Navbar";
 
 export const context = createContext([])
-const url = "https://fileshare-backend-s3.vercel.app/";
+const url = "https://fileshare-backend-s3.vercel.app";
 
 function App() {
   const [aut, setAut] = useState({email_verified:false});
