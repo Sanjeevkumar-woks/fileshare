@@ -5,8 +5,7 @@ import { googleLogout } from "@react-oauth/google";
 
 
 function Navbar({ aut, setAut }) {
-
-    console.log(aut)
+    
     const navigate = useNavigate();
     const logOut = () => {
         googleLogout();
