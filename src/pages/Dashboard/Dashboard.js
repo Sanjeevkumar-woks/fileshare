@@ -3,8 +3,8 @@ import { useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
 import "./dashboard.css";
 import axios from "axios";
-import FileCard from "../components/Filecard";
-import { context } from "../App";
+import FileCard from "../../components/Filecard/Filecard";
+import { context } from "../../App";
 
 export default function Dashboard() {
   const [aut, , url] = useContext(context);
@@ -61,6 +61,7 @@ export default function Dashboard() {
     setProgress(0);
     setOneFile(null);
   };
+
   const handleDeleteClick = (filename) => {
     fetch(`${url}/api/files/delete/${filename}`, {
       method: "DELETE",
@@ -70,9 +71,6 @@ export default function Dashboard() {
       .then((data) => setFiles(data))
       .catch((err) => console.error(err));
   };
-
-
-
 
   return (
     <div className="dashboard-container">

@@ -3,7 +3,7 @@ import "./homepage.css";
 import homeimg from "./Uploading-rafiki.png";
 import { GoogleLogin } from "@react-oauth/google";
 import jwt_decode from "jwt-decode";
-import { context } from "../App";
+import { context } from "../../App";
 
 export default function Homepage() {
 

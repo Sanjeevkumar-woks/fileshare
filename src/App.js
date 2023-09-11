@@ -1,15 +1,15 @@
 
-import Homepage from "./pages/Homepage";
+import Homepage from "./pages/Homepage/Homepage";
 import "./App.css";
-import Dashboard from "./pages/Dashboard";
+import Dashboard from "./pages/Dashboard/Dashboard";
 import { Route, Routes } from "react-router-dom";
 import { createContext, useState } from "react";
-import { Footer } from "./components/Footer";
-import Fileshared from "./pages/Fileshared";
-import Navbar from "./components/Navbar";
+import { Footer } from "./components/Footer/Footer";
+import Fileshared from "./pages/fileshared/Fileshared";
+import Navbar from "./components/Navbar/Navbar";
 
 export const context = createContext([])
-const url = "https://fileshare-backend-s3-i6kbkflgp-sanjeevkumar-woks.vercel.app";
+const url = "https://fileshare-backend-s3.vercel.app/";
 
 function App() {
   const [aut, setAut] = useState({email_verified:false});

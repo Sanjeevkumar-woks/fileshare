@@ -1,6 +1,6 @@
 import './filecard.css'
 import { useContext } from "react";
-import { context } from "../App";
+import { context } from "../../App";
 import { useNavigate } from "react-router-dom";
 
 

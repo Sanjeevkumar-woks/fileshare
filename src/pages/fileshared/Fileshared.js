@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
-import { context } from "../App";
+import { context } from "../../App";
 import './fileshared.css'
 
 function Fileshared() {
@@ -77,8 +77,6 @@ function Fileshared() {
                     <span>Send</span>
                 </button>
             </div>
-
-
         </div>
     )
 }
